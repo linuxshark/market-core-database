@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: market-db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: abcd1234
+      POSTGRES_DB: market_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - market-net
+
+networks:
+  market-net:
+    driver: bridge
+
+volumes:
+  pgdata:
